@@ -1,3 +1,4 @@
+import { PlayCircleOutlined } from '@ant-design/icons';
 import { GridContent } from '@ant-design/pro-components';
 import {
   Card,
@@ -6,21 +7,24 @@ import {
   Form,
   Input,
   InputNumber,
+  Radio,
   Row,
   Select,
+  Slider,
   Table,
+  Tooltip,
   Typography,
 } from 'antd';
 import { useEffect, useState } from 'react';
 
 import type { ColumnsType } from 'antd/es/table';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const HomePage: React.FC = () => {
   const [data, setData] = useState();
 
-  const [active, setActive] = useState<string>('tab1');
+  const [active, setActive] = useState<string>('basic');
 
   const fetchDir = async () => {
     const res = await window.$api.fs.readdir(
@@ -164,7 +168,7 @@ const HomePage: React.FC = () => {
             <InputNumber suffix="秒" />
           </Form.Item>
         </Form.Item>
-        <Form.Item label="输出比例" initialValue="测试空间">
+        <Form.Item label="输出比例">
           <Select
             defaultValue="vertical"
             style={{ width: '100%' }}
@@ -173,6 +177,49 @@ const HomePage: React.FC = () => {
               { value: 'horizontal', label: '横屏 16:9 （1920×1080）' },
             ]}
           />
+        </Form.Item>
+
+        <Form.Item label="其他配置">
+          <Checkbox.Group
+            options={['显示字幕', '无缝模式', '字幕转语音']}
+            defaultValue={['Apple']}
+          />
+        </Form.Item>
+
+        <Form.Item label="文案模式">
+          <Radio.Group options={['长文案', '片段文案', '长文案随机']} />
+        </Form.Item>
+
+        <Title style={{ marginBottom: 24 }} level={5}>
+          主播配置
+        </Title>
+        <Form.Item label="主播列表" style={{ marginBottom: 0 }}>
+          <Form.Item
+            style={{ display: 'inline-block', width: 'calc(90% - 8px)' }}
+          >
+            <Select
+              defaultValue="vertical"
+              style={{ width: '100%' }}
+              options={[
+                { value: 'vertical', label: '竖屏 9:16 （1080×1920）' },
+                { value: 'horizontal', label: '横屏 16:9 （1920×1080）' },
+              ]}
+            />
+          </Form.Item>
+          <Form.Item style={{ display: 'inline-block', padding: '0 12px' }}>
+            <Tooltip title="试听">
+              <PlayCircleOutlined style={{ fontSize: 20 }} />
+            </Tooltip>
+          </Form.Item>
+        </Form.Item>
+        <Form.Item label="配音语速">
+          <Slider />
+        </Form.Item>
+        <Form.Item label="主播音量">
+          <Slider />
+        </Form.Item>
+        <Form.Item label="背景音量">
+          <Slider />
         </Form.Item>
       </Form>
     ),
@@ -210,6 +257,8 @@ const HomePage: React.FC = () => {
           </div>
         </Col>
         <Col span={14}>
+          {/* <Button type='primary'>打开素材目录</Button>
+        <Button type='primary'>打开文案创作</Button> */}
           <div className="flex flex-col">
             <Card
               size="small"
