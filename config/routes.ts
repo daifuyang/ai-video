@@ -1,0 +1,12 @@
+export default [
+  {
+    path: '/',
+    redirect: '/home',
+  },
+  {
+    name: '首页',
+    path: '/home',
+    layout: false,
+    component: './Home',
+  },
+];
